@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --mainBlack: #282828;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--mainBlack);
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* navbar */
+.navbar {
+  background: #fff8dc;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 10vh;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  font-size: 2rem;
+}
+
+.navbar h1,
+.navbar span {
+  cursor: default;
+}
+
+.navbar .fa-shopping-cart {
+  cursor: pointer;
+}
+/* navbar */
+
+/* welcome-page */
+.welcome-page {
+  width: 100%;
+  height: 90vh;
+  background: url("images/hero-bcg.jpeg") center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-page div {
+  background: #eeeeee88;
+  text-align: center;
+  font-size: 4rem;
+  text-transform: uppercase;
+  padding: 2rem 3rem;
+}
+
+.welcome-page div .btn {
+  font-size: 2rem;
+  font-family: inherit;
+  color: inherit;
+  text-transform: inherit;
+  background: #d8ff49;
+  border: 1px solid #d8ff49;
+  padding: 1rem 3rem;
+  transition: all 500ms ease;
+  cursor: pointer;
+}
+
+.welcome-page div .btn:hover {
+  background: #eeeeee88;
+  color: #e5ff00;
+}
+/* welcome-page */
+
+/* product-page */
+.products-page {
+  width: 100%;
+  text-align: center;
+}
+
+.products-page h2 {
+  font-size: 4rem;
+  text-transform: capitalize;
+}
+
+.products-wall {
+  width: 80vw;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  column-gap: 2rem;
+  margin: 0 auto;
+}
+
+.product img {
+  width: 20vw;
+}
+
+.product h4 {
+  font-size: 1.5rem;
+}
+
+.product h5 {
+  font-size: 1.25rem;
+}
+/* product-page */
