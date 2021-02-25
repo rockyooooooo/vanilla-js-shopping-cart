@@ -21,11 +21,11 @@
     <header class="welcome-page">
         <div>
             <h2>furniture collection</h2>
-            <button class="btn">shop now</button>
+            <a class="btn" href="#products-page">shop now</a>
         </div>
     </header>
 
-    <section class="products-page">
+    <section id="products-page" class="products-page">
         <h2>our products</h2>
         <div class="products-wall">
             <!-- single product -->
@@ -33,34 +33,91 @@
                 <img src="images/product-1.jpeg" alt="product">
                 <h4>queen panel bed</h4>
                 <h5>$30.99</h5>
+                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
             <div class="product">
                 <img src="images/product-2.jpeg" alt="product">
                 <h4>king panel bed</h4>
                 <h5>$30.99</h5>
+                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
             <div class="product">
                 <img src="images/product-3.jpeg" alt="product">
                 <h4>double panel bed</h4>
                 <h5>$30.99</h5>
+                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
             <div class="product">
                 <img src="images/product-4.jpeg" alt="product">
                 <h4>single panel bed</h4>
                 <h5>$30.99</h5>
+                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
             <div class="product">
                 <img src="images/product-5.jpeg" alt="product">
                 <h4>fridge</h4>
                 <h5>$30.99</h5>
+                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
             <div class="product">
                 <img src="images/product-6.jpeg" alt="product">
                 <h4>dresser</h4>
                 <h5>$30.99</h5>
+                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
             <!-- single product -->
         </div>
     </section>
+
+    <div>
+        <div class="overlay"></div>
+        <div class="cart-page">
+            <i class="fas fa-window-close"></i>
+            <h3>your cart</h3>
+            <div class="cart">
+                <div class="cart-item">
+                    <img src="images/product-1.jpeg" alt="product">
+                    <div>
+                        <h4>queen panel bed</h4>
+                        <h5>$30.99</h5>
+                        <p>remove</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-caret-up"></i>
+                        <span>1</span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <img src="images/product-1.jpeg" alt="product">
+                    <div>
+                        <h4>queen panel bed</h4>
+                        <h5>$30.99</h5>
+                        <p>remove</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-caret-up"></i>
+                        <span>1</span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <img src="images/product-1.jpeg" alt="product">
+                    <div>
+                        <h4>queen panel bed</h4>
+                        <h5>$30.99</h5>
+                        <p>remove</p>
+                    </div>
+                    <div>
+                        <i class="fas fa-caret-up"></i>
+                        <span>1</span>
+                        <i class="fas fa-caret-down"></i>
+                    </div>
+                </div>
+            </div>
+            <h3>total price: $123.32</h3>
+            <button class="btn">clear cart</button>
+        </div>
+    </div>
 </body>
 </html>
