@@ -130,11 +130,18 @@ body {
   text-transform: uppercase;
   transform: translateX(101%);
   transition: transform 300ms ease;
-  cursor: pointer;
 }
 
 .product:hover span {
   transform: translateX(0%);
+}
+
+.add-to-cart {
+  cursor: pointer;
+}
+
+.in-cart {
+  cursor: default;
 }
 /* product-page */
 

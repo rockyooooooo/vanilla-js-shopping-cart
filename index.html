@@ -7,13 +7,12 @@
     <script src="https://kit.fontawesome.com/462ae7e8a8.js" crossorigin="anonymous"></script>
     <title>Shopping-Cart</title>
     <link rel="stylesheet" href="style.css">
-    <script src="app.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <div><i class="fas fa-bars"></i></div>
         <div><h1>Ikae</h1></div>
-        <div>
+        <div class="cart-btn">
             <i class="fas fa-shopping-cart"></i>
             <span class="total-items">0</span>
         </div>
@@ -30,42 +29,7 @@
         <h2>our products</h2>
         <div class="products-wall">
             <!-- single product -->
-            <div class="product">
-                <img src="images/product-1.jpeg" alt="product">
-                <h4>queen panel bed</h4>
-                <h5>$30.99</h5>
-                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
-            </div>
-            <div class="product">
-                <img src="images/product-2.jpeg" alt="product">
-                <h4>king panel bed</h4>
-                <h5>$30.99</h5>
-                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
-            </div>
-            <div class="product">
-                <img src="images/product-3.jpeg" alt="product">
-                <h4>double panel bed</h4>
-                <h5>$30.99</h5>
-                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
-            </div>
-            <div class="product">
-                <img src="images/product-4.jpeg" alt="product">
-                <h4>single panel bed</h4>
-                <h5>$30.99</h5>
-                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
-            </div>
-            <div class="product">
-                <img src="images/product-5.jpeg" alt="product">
-                <h4>fridge</h4>
-                <h5>$30.99</h5>
-                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
-            </div>
-            <div class="product">
-                <img src="images/product-6.jpeg" alt="product">
-                <h4>dresser</h4>
-                <h5>$30.99</h5>
-                <span><i class="fas fa-shopping-cart"></i>add to cart</span>
-            </div>
+            <!--  -->
             <!-- single product -->
         </div>
     </section>
@@ -73,52 +37,18 @@
     <div>
         <div class="overlay"></div>
         <div class="cart-page">
-            <i class="fas fa-window-close"></i>
+            <i class="fas fa-window-close close-btn"></i>
             <h3>your cart</h3>
             <div class="cart">
-                <div class="cart-item">
-                    <img src="images/product-1.jpeg" alt="product">
-                    <div>
-                        <h4>queen panel bed</h4>
-                        <h5>$30.99</h5>
-                        <p>remove</p>
-                    </div>
-                    <div>
-                        <i class="fas fa-caret-up"></i>
-                        <span>1</span>
-                        <i class="fas fa-caret-down"></i>
-                    </div>
-                </div>
-                <div class="cart-item">
-                    <img src="images/product-1.jpeg" alt="product">
-                    <div>
-                        <h4>queen panel bed</h4>
-                        <h5>$30.99</h5>
-                        <p>remove</p>
-                    </div>
-                    <div>
-                        <i class="fas fa-caret-up"></i>
-                        <span>1</span>
-                        <i class="fas fa-caret-down"></i>
-                    </div>
-                </div>
-                <div class="cart-item">
-                    <img src="images/product-1.jpeg" alt="product">
-                    <div>
-                        <h4>queen panel bed</h4>
-                        <h5>$30.99</h5>
-                        <p>remove</p>
-                    </div>
-                    <div>
-                        <i class="fas fa-caret-up"></i>
-                        <span>1</span>
-                        <i class="fas fa-caret-down"></i>
-                    </div>
-                </div>
+                <!-- cart items -->
+                <!--  -->
+                <!-- cart items -->
             </div>
             <h3>total price: $123.32</h3>
-            <button class="btn">clear cart</button>
+            <button class="btn clear-btn">clear cart</button>
         </div>
     </div>
+    
+    <script src="app.js"></script>
 </body>
 </html>
