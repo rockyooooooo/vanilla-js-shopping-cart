@@ -16,25 +16,59 @@ function toggleCartPage() {
 }
 
 // add product to cart
-function addToCart(product) {
-  cart.innerHTML += `
+function addToCart(cartItems) {
+  cartItems.forEach((item) => {
+    allProducts.forEach((product) => {
+      if (item.id === product.id) {
+        cart.innerHTML += `
         <div class="cart-item">
             <img src="${product.img}" alt="product">
             <div>
                 <h4>${product.title}</h4>
                 <h5>${product.price}</h5>
-                <p>remove</p>
+                <p class="remove-btn" data-id="${product.id}">remove</p>
             </div>
             <div>
-                <i class="fas fa-caret-up"></i>
-                <span>1</span>
-                <i class="fas fa-caret-down"></i>
+              <i class="fas fa-caret-up" data-id="${product.id}"></i>
+              <span class="item-amount">${item.amount}</span>
+              <i class="fas fa-caret-down" data-id="${product.id}"></i>
             </div>
         </div>  
     `;
+      }
+    });
+  });
+}
 
-  cartItems = [...cartItems, { id: product.id, amount: 1 }];
-  saveToStorage(cartItems, "cart");
+function btnListener() {
+  let id = this.dataset.id;
+  allProducts.forEach((product) => {
+    if (product.id === id) {
+      let newItem = [{ id: product.id, amount: 1 }];
+      cartItems = [...cartItems, ...newItem];
+      saveToStorage(cartItems, "cart");
+      addToCart(newItem);
+    }
+  });
+  this.innerText = "in cart";
+  this.classList.add("in-cart");
+  toggleCartPage();
+  this.removeEventListener("click", btnListener);
+}
+
+function addToCartButtons() {
+  const addToCartBtns = [...document.querySelectorAll(".add-to-cart")];
+  addToCartBtns.forEach((btn) => {
+    let id = btn.dataset.id;
+    let inCart = cartItems.find((item) => item.id === id);
+
+    if (inCart) {
+      btn.innerText = "in cart";
+      btn.classList.add("in-cart");
+    } else {
+      btn.addEventListener("click", btnListener);
+    }
+  });
 }
 
 // set products to cart
@@ -43,10 +77,14 @@ function setProductsToCart() {
 
   if (productsInCart) {
     allProducts.forEach((product) => {
-      if (productsInCart.find((item) => item.id === product.id)) {
-        addToCart(product);
-      }
+      productsInCart.forEach((item) => {
+        if (item.id === product.id) {
+          cartItems = [...cartItems, { id: product.id, amount: item.amount }];
+        }
+      });
     });
+    saveToStorage(cartItems, "cart");
+    addToCart(cartItems);
   }
 }
 
@@ -61,29 +99,6 @@ function setProductsToWall() {
                 <span class="add-to-cart" data-id=${product.id}><i class="fas fa-shopping-cart"></i>add to cart</span>
             </div>
         `;
-  });
-
-  const addToCartBtns = [...document.querySelectorAll(".add-to-cart")];
-  addToCartBtns.forEach((btn) => {
-    let id = btn.dataset.id;
-    let inCart = cartItems.find((item) => item.id === id);
-
-    if (inCart) {
-      btn.innerText = "in cart";
-      btn.classList.add("in-cart");
-    } else {
-      btn.addEventListener("click", () => {
-        allProducts.forEach((product) => {
-          if (product.id === id) {
-            addToCart(product);
-          }
-        });
-        btn.innerText = "in cart";
-        btn.classList.add("in-cart");
-
-        toggleCartPage();
-      });
-    }
   });
 }
 
@@ -122,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   setProductsToCart();
   setProductsToWall();
+  addToCartButtons();
 
   cartBtn.addEventListener("click", () => {
     toggleCartPage();
@@ -130,6 +146,41 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleCartPage();
   });
   clearBtn.addEventListener("click", () => {
-    cartItems = [];
+    // clear all the items in the cart
+  });
+
+  //   use event bubling to remove and increase / decrease
+  cart.addEventListener("click", (event) => {
+    const clickedItem = event.target.parentNode.parentNode;
+    const id = event.target.dataset.id;
+    if (event.target.classList.contains("remove-btn")) {
+      // remove the item
+      cartItems = cartItems.filter((item) => item.id !== id);
+      saveToStorage(cartItems, "cart");
+      const addToCartBtns = document.querySelectorAll(".add-to-cart");
+      addToCartBtns.forEach((btn) => {
+        if (btn.dataset.id === id) {
+          btn.innerHTML = `<i class="fas fa-shopping-cart"></i>add to cart`;
+          btn.addEventListener("click", btnListener);
+        }
+      });
+      cart.removeChild(clickedItem);
+    } else if (event.target.classList.contains("fa-caret-up")) {
+      // increase amount
+      cartItems.forEach((item) => {
+        if (item.id === id) {
+          item.amount++;
+        }
+      });
+      saveToStorage(cartItems, "cart");
+    } else if (event.target.classList.contains("fa-caret-down")) {
+      // decrease amount
+      cartItems.forEach((item) => {
+        if (item.id === id) {
+          item.amount--;
+        }
+      });
+      saveToStorage(cartItems, "cart");
+    }
   });
 });
