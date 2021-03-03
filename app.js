@@ -2,6 +2,7 @@ const productsWall = document.querySelector(".products-wall");
 const overlay = document.querySelector(".overlay");
 const cartPage = document.querySelector(".cart-page");
 const cart = document.querySelector(".cart");
+const totalItems = document.querySelector(".total-items");
 const cartBtn = document.querySelector(".cart-btn");
 const closeBtn = document.querySelector(".close-btn");
 const clearBtn = document.querySelector(".clear-btn");
@@ -12,15 +13,20 @@ let cartItems = [];
 
 // update value in cart page
 function updateCartValue() {
-  let total = 0;
+  let cost = 0;
+  let totalItemsAmount = 0;
   cartItems.forEach((item) => {
     allProducts.forEach((product) => {
       if (item.id === product.id) {
-        total += product.price * item.amount;
+        cost += product.price * item.amount;
       }
     });
+    totalItemsAmount += item.amount;
   });
-  console.log(total);
+
+  cost = cost.toFixed(2);
+  totalPrice.innerText = `$${cost}`;
+  totalItems.innerText = totalItemsAmount;
 }
 
 // show / hide overlay and cart page
@@ -35,7 +41,7 @@ function addToCart(cartItems) {
     allProducts.forEach((product) => {
       if (item.id === product.id) {
         cart.innerHTML += `
-        <div class="cart-item">
+        <div class="cart-item" data-id="${product.id}">
             <img src="${product.img}" alt="product">
             <div>
                 <h4>${product.title}</h4>
@@ -162,29 +168,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   clearBtn.addEventListener("click", () => {
     // clear all the items in the cart
+    const itemsToBeRemoved = document.querySelectorAll(".cart-item");
+    itemsToBeRemoved.forEach((item) => {
+      const id = item.dataset.id;
+      removeItem(item, id);
+      updateCartValue();
+    });
   });
 
   //   use event bubling to remove and increase / decrease
   cart.addEventListener("click", (event) => {
     const clickedItem = event.target.parentNode.parentNode;
     const id = event.target.dataset.id;
+
     if (event.target.classList.contains("remove-btn")) {
       // remove the item
-      cartItems = cartItems.filter((item) => item.id !== id);
-      saveToStorage(cartItems, "cart");
-      const addToCartBtns = document.querySelectorAll(".add-to-cart");
-      addToCartBtns.forEach((btn) => {
-        if (btn.dataset.id === id) {
-          btn.innerHTML = `<i class="fas fa-shopping-cart"></i>add to cart`;
-          btn.addEventListener("click", btnListener);
-        }
-      });
-      cart.removeChild(clickedItem);
+      removeItem(clickedItem, id);
     } else if (event.target.classList.contains("fa-caret-up")) {
       // increase amount
       cartItems.forEach((item) => {
         if (item.id === id) {
           item.amount++;
+          event.target.nextElementSibling.innerText = item.amount;
         }
       });
       saveToStorage(cartItems, "cart");
@@ -193,13 +198,30 @@ document.addEventListener("DOMContentLoaded", () => {
       cartItems.forEach((item, idx) => {
         if (item.id === id && item.amount > 0) {
           item.amount--;
-        } else if (item.amount == 0) {
-          cartItems.splice(idx, 1);
+          event.target.previousElementSibling.innerText = item.amount;
+          if (item.amount == 0) {
+            cartItems.splice(idx, 1);
+            removeItem(clickedItem, id);
+          }
         }
       });
+
       saveToStorage(cartItems, "cart");
     }
 
     updateCartValue();
   });
 });
+
+function removeItem(clickedItem, id) {
+  cartItems = cartItems.filter((item) => item.id !== id);
+  saveToStorage(cartItems, "cart");
+  const addToCartBtns = document.querySelectorAll(".add-to-cart");
+  addToCartBtns.forEach((btn) => {
+    if (btn.dataset.id === id) {
+      btn.innerHTML = `<i class="fas fa-shopping-cart"></i>add to cart`;
+      btn.addEventListener("click", btnListener);
+    }
+  });
+  cart.removeChild(clickedItem);
+}
