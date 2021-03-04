@@ -15,19 +15,14 @@ const closeBtn = document.querySelector(".close-btn");
 const clearBtn = document.querySelector(".clear-btn");
 const totalPrice = document.querySelector(".total-price");
 
-const allProducts = JSON.parse(localStorage.getItem("products"));
 let cartItems = [];
 
 // update value in cart page
-function updateCartValue() {
+function updateCartValue(items) {
   let cost = 0;
   let totalItemsAmount = 0;
-  cartItems.forEach((item) => {
-    allProducts.forEach((product) => {
-      if (item.id === product.id) {
-        cost += product.price * item.amount;
-      }
-    });
+  items.forEach((item) => {
+    cost += item.price * item.amount;
     totalItemsAmount += item.amount;
   });
 
@@ -43,41 +38,33 @@ function toggleCartPage() {
 }
 
 // add product to cart
-function addToCart(cartItems) {
-  cartItems.forEach((item) => {
-    allProducts.forEach((product) => {
-      if (item.id === product.id) {
-        cart.innerHTML += `
-        <div class="cart-item" data-id="${product.id}">
-            <img src="${product.img}" alt="product">
+function addToCart(items) {
+  items.forEach((item) => {
+    cart.innerHTML += `
+        <div class="cart-item" data-id="${item.id}">
+            <img src="${item.img}" alt="product">
             <div>
-                <h4>${product.title}</h4>
-                <h5>${product.price}</h5>
-                <p class="remove-btn" data-id="${product.id}">remove</p>
+                <h4>${item.title}</h4>
+                <h5>${item.price}</h5>
+                <p class="remove-btn" data-id="${item.id}">remove</p>
             </div>
             <div>
-              <i class="fas fa-caret-up" data-id="${product.id}"></i>
+              <i class="fas fa-caret-up" data-id="${item.id}"></i>
               <span class="item-amount">${item.amount}</span>
-              <i class="fas fa-caret-down" data-id="${product.id}"></i>
+              <i class="fas fa-caret-down" data-id="${item.id}"></i>
             </div>
         </div>  
     `;
-      }
-    });
   });
-  updateCartValue();
+  updateCartValue(cartItems);
 }
 
 function btnListener() {
   let id = this.dataset.id;
-  allProducts.forEach((product) => {
-    if (product.id === id) {
-      let newItem = [{ id: product.id, amount: 1 }];
-      cartItems = [...cartItems, ...newItem];
-      saveToStorage(cartItems, "cart");
-      addToCart(newItem);
-    }
-  });
+  let newItem = [{ ...getFromStorage(id), amount: 1 }];
+  cartItems = [...cartItems, ...newItem];
+  saveToStorage(cartItems, "cart");
+  addToCart(newItem);
   this.innerText = "in cart";
   this.classList.add("in-cart");
   toggleCartPage();
@@ -104,20 +91,13 @@ function setProductsToCart() {
   const productsInCart = JSON.parse(localStorage.getItem("cart"));
 
   if (productsInCart) {
-    allProducts.forEach((product) => {
-      productsInCart.forEach((item) => {
-        if (item.id === product.id) {
-          cartItems = [...cartItems, { id: product.id, amount: item.amount }];
-        }
-      });
-    });
-    saveToStorage(cartItems, "cart");
-    addToCart(cartItems);
+    cartItems = [...productsInCart];
+    addToCart(productsInCart);
   }
 }
 
 // set the products to the wall
-function setProductsToWall() {
+function setProductsToWall(allProducts) {
   allProducts.forEach((product) => {
     productsWall.innerHTML += `
             <div class="product">
@@ -164,13 +144,19 @@ function saveToStorage(data, target) {
   }
 }
 
+// get products from localStorage
+function getFromStorage(id) {
+  let products = JSON.parse(localStorage.getItem("products"));
+  return products.find((product) => product.id === id);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   getProducts().then((data) => {
     saveToStorage(data);
+    setProductsToCart();
+    setProductsToWall(data);
+    addToCartButtons();
   });
-  setProductsToCart();
-  setProductsToWall();
-  addToCartButtons();
 
   cartBtn.addEventListener("click", () => {
     toggleCartPage();
@@ -183,8 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const itemsToBeRemoved = document.querySelectorAll(".cart-item");
     itemsToBeRemoved.forEach((item) => {
       const id = item.dataset.id;
+      const items = cartItems.find((item) => item.id === id);
       removeItem(item, id);
-      updateCartValue();
+      updateCartValue(cartItems);
     });
   });
 
@@ -192,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cart.addEventListener("click", (event) => {
     const clickedItem = event.target.parentNode.parentNode;
     const id = event.target.dataset.id;
+    const items = cartItems.find((item) => item.id === id);
 
     if (event.target.classList.contains("remove-btn")) {
       // remove the item
@@ -221,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
       saveToStorage(cartItems, "cart");
     }
 
-    updateCartValue();
+    updateCartValue(cartItems);
   });
 });
 
