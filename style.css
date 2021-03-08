@@ -25,6 +25,12 @@ html {
   font-size: 11px;
 }
 
+@media (max-width: 800px) {
+  html {
+    font-size: 8px;
+  }
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -87,6 +93,13 @@ body {
   border-radius: 5px;
   width: 2rem;
   height: 2rem;
+}
+
+@media (max-width: 800px) {
+  .total-items {
+    top: -7px;
+    right: 28px;
+  }
 }
 /* navbar */
 
