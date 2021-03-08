@@ -169,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const itemsToBeRemoved = document.querySelectorAll(".cart-item");
     itemsToBeRemoved.forEach((item) => {
       const id = item.dataset.id;
-      const items = cartItems.find((item) => item.id === id);
       removeItem(item, id);
       updateCartValue(cartItems);
     });
@@ -179,7 +178,6 @@ document.addEventListener("DOMContentLoaded", () => {
   cart.addEventListener("click", (event) => {
     const clickedItem = event.target.parentNode.parentNode;
     const id = event.target.dataset.id;
-    const items = cartItems.find((item) => item.id === id);
 
     if (event.target.classList.contains("remove-btn")) {
       // remove the item

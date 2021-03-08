@@ -6,6 +6,10 @@
   --mainBgColor: #fff8dc;
 }
 
+.fa-bars {
+  cursor: not-allowed;
+}
+
 * {
   margin: 0;
   padding: 0;
