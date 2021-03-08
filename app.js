@@ -63,7 +63,7 @@ function btnListener() {
   let id = this.dataset.id;
   let newItem = [{ ...getFromStorage(id), amount: 1 }];
   cartItems = [...cartItems, ...newItem];
-  saveToStorage(cartItems, "cart");
+  saveCartToStorage(cartItems);
   addToCart(newItem);
   this.innerText = "in cart";
   this.classList.add("in-cart");
@@ -136,12 +136,11 @@ async function getProducts() {
 }
 
 // save data to localStorage
-function saveToStorage(data, target) {
-  if (target === "cart") {
-    localStorage.setItem("cart", JSON.stringify(data));
-  } else {
-    localStorage.setItem("products", JSON.stringify(data));
-  }
+function saveProductsToStorage(products) {
+  localStorage.setItem("products", JSON.stringify(products));
+}
+function saveCartToStorage(cart) {
+  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 // get products from localStorage
@@ -152,7 +151,7 @@ function getFromStorage(id) {
 
 document.addEventListener("DOMContentLoaded", () => {
   getProducts().then((data) => {
-    saveToStorage(data);
+    saveProductsToStorage(data);
     setProductsToCart();
     setProductsToWall(data);
     addToCartButtons();
@@ -190,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
           event.target.nextElementSibling.innerText = item.amount;
         }
       });
-      saveToStorage(cartItems, "cart");
+      saveCartToStorage(cartItems);
     } else if (event.target.classList.contains("fa-caret-down")) {
       // decrease amount
       cartItems.forEach((item, idx) => {
@@ -203,8 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
       });
-
-      saveToStorage(cartItems, "cart");
+      saveCartToStorage(cartItems);
     }
 
     updateCartValue(cartItems);
@@ -213,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function removeItem(clickedItem, id) {
   cartItems = cartItems.filter((item) => item.id !== id);
-  saveToStorage(cartItems, "cart");
+  saveCartToStorage(cartItems);
   const addToCartBtns = document.querySelectorAll(".add-to-cart");
   addToCartBtns.forEach((btn) => {
     if (btn.dataset.id === id) {

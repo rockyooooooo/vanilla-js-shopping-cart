@@ -6,6 +6,7 @@
   --mainBgColor: #fff8dc;
 }
 
+/* disable the hamberger since I didn't do it */
 .fa-bars {
   cursor: not-allowed;
 }
